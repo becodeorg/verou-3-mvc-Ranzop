@@ -18,8 +18,16 @@ class ArticleController
     {
         // TODO: prepare the database connection
         // Note: you might want to use a re-usable databaseManager class - the choice is yours
+
+      
+
         // TODO: fetch all articles as $rawArticles (as a simple array)
-        $rawArticles = [];
+        $query = "SELECT * from `articles`";
+        $result = $this->databaseManager->connection->query($query);
+
+        $rawArticles = [$result];
+
+        var_dump($rawArticles);
 
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
