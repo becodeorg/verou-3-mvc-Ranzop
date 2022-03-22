@@ -4,11 +4,12 @@ declare(strict_types = 1);
 
 class ArticleController
 {
+    private DatabaseManager $databaseManager;
     //connecting to database in this class
 
     public function __construct(DatabaseManager $databaseManager)
     {
-        $this->databasemanager = $databaseManager;
+        $this->databaseManager = $databaseManager;
     }
 
 
@@ -30,10 +31,13 @@ class ArticleController
       
 
         // TODO: fetch all articles as $rawArticles (as a simple array)
-        $query = "SELECT * from `articles`";
-        $result = $this->databaseManager->connection->prepare($query);
-        $result->execute();
-        $rawArticles = $result->fetchAll(PDO::FETCH_ASSOC);
+        $rawArticles = [];
+        $query = "SELECT * from articles";
+        $rawArticles = $this->databaseManager->connection
+        ->query($query)
+        ->fetchAll();
+
+        //fetchAll seems to convert things into a string -> leading to an error message
 
        
 
@@ -43,18 +47,18 @@ class ArticleController
             $articles[] = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publishDate']);
         }
 
-        var_dump($rawArticles);
-
         return $articles;
     }
 
     public function show()
     {
-        $articles = $this->getArticles();
+        $query = "SELECT * FROM `articles` WHERE id={$_GET['id']}";
+        $rawArticle = $this->databasemanager->connection->query($query, PDO::FETCH_ASSOC)->fetch();
+        $article = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['date'], $rawArticle['id']);
         require 'View/articles/show.php';
         // TODO: this can be used for a detail page
     }
-    private function getArticle(): array
+    /* private function getArticle(): array
     {
         $id = $_GET['id'] ?? null;
 
@@ -73,5 +77,5 @@ class ArticleController
 			$rawArticle['publishDate']);
 
 		return $article;
-    }
+    } */
 }

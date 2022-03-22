@@ -5,9 +5,9 @@
 <section>
     <h1>Articles</h1>
     <ul>
-        <?php foreach ($articles as $article) : ?>
-            <a href="index.php?page=articles-show&id=<?=$article->id?>"><li><?= $article->title ?> (<?= $article->formatPublishDate() ?>)</li></a>
-        <?php endforeach; ?>
+    <?php foreach ($articles as $article) : ?>
+                <li><?= $article->title ?><a href="index.php?page=articles-show&articleid=<?= $article-> id ?>" >View more</a></li>
+                <?php endforeach; ?>
     </ul>
 </section>
 

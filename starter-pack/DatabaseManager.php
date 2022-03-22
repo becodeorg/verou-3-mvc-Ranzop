@@ -27,6 +27,7 @@ class DatabaseManager
         $this->connection = new PDO($dsn,$this->user,$this->password);
         //we need to set the attributes of the connection
         $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         echo "Connection established!!!";
     }
     catch (PDOException $ex) {

@@ -9,6 +9,6 @@ $config = [
     'user' => 'root',
     // default setting = password 'YES'; in XAMPP you don't need a password, with MAMP you do need it (localhost considered);
     'password' => 'root',
-    'dbname' => 'humans',
+    'dbname' => 'articles',
 ];
 
