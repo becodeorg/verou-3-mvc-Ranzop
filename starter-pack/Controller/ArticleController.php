@@ -4,6 +4,15 @@ declare(strict_types = 1);
 
 class ArticleController
 {
+    //connecting to database in this class
+    private DatabaseManager $databasemanager;
+
+    public function __construct(DatabaseManager $databaseManager)
+    {
+        $this->databasemanager = $databaseManager;
+    }
+
+
     public function index()
     {
         // Load all required data
@@ -24,22 +33,27 @@ class ArticleController
         // TODO: fetch all articles as $rawArticles (as a simple array)
         $query = "SELECT * from `articles`";
         $result = $this->databaseManager->connection->query($query);
+        $result->execute();
+        $resultFetch = $result->fetchAll(PDO::FETCH_ASSOC);
+        $rawArticles = $resultFetch;
 
-        $rawArticles = [$result];
-
-        var_dump($rawArticles);
+       
 
         $articles = [];
         foreach ($rawArticles as $rawArticle) {
             // We are converting an article from a "dumb" array to a much more flexible class
-            $articles[] = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['publish_date']);
+            $articles[] = new Article($rawArticle['id'], $rawArticle['title'], $rawArticle['description'], $rawArticle['publishDate']);
         }
+
+        var_dump($rawArticles);
 
         return $articles;
     }
 
     public function show()
     {
+        $articles = $this->getArticles();
+        require 'View/articles/show.php';
         // TODO: this can be used for a detail page
     }
 }
