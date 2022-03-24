@@ -54,9 +54,22 @@ class ArticleController
     {
         $query = "SELECT * FROM `articles` WHERE id={$_GET['id']}";
         $rawArticle = $this->databasemanager->connection->query($query, PDO::FETCH_ASSOC)->fetch();
+        
+        $articles = [];
+        foreach ($articles as $article){
         $article = new Article($rawArticle['title'], $rawArticle['description'], $rawArticle['date'], $rawArticle['id']);
+        };
+        $previousArticle = $this->previousArticle();
+        $nextArticle = $this->nextArticle();
         require 'View/articles/show.php';
         // TODO: this can be used for a detail page
+    }
+
+    public function previousArticle()
+    {
+
+
+        
     }
     /* private function getArticle(): array
     {
